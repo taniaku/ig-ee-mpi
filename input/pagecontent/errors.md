@@ -138,13 +138,13 @@ Allpool on toodud veakoodid tekstidega erinevatest süsteemidest. Oluline meeles
 | MPI-062    | Päringu päised 'x-road-userid' ja 'x-author-id' on erineva isikukoodiga                                                                                 |
 | MPI-063    | Päringu autor ei tohi olla anonüümne (isikukoodiga ${impersonal_code})                                                                                  |
 | MPI-064    | 'guardian-only' parameeter on lubatud ainult alaealise patsiendi puhul. Täiskasvanu eestkostja leidmiseks tuleb kasutada $legal-guardian operatsiooni!  |
-| MPI-065    | Patsientide sidumine ebaõnnestus: sekundaarne patsient (source) ei tohi olla seotud eesti isikukoodiga                                                          |
+| MPI-065    | Patsientide sidumine ebaõnnestus: sekundaarne patsient (source) ei tohi olla seotud eesti isikukoodiga                                                  |
 | MPI-066    | Päringu autori isikukood ${personalCode} ei ole korrektne                                                                                               |
-| MPI-067    | Patsiendi identifikaatori süsteem ${system} ei ole lubatud                                                                                              |![img.png](img.png)
+| MPI-067    | Patsiendi identifikaatori süsteem ${system} ei ole lubatud                                                                                              |
 | MPI-068    | Patsientide lahtisidumine ebaõnnestus: nii primaarne kui ka sekundaarne patsient ei tohi olla seotud Eesti isikukoodiga                                 |
 | MPI-069    | Patsiendi identifikaatori süsteemi ${system} kehtivus lõppes ${validUntil}                                                                              |
 | MPI-070    | Välismaa identifikaatorile ${id-system}\|${id-value} on kohustulik määrata ka isikukood süsteemiga ${required}                                          |
-| MPI-071    | Eesti isikukoodiga patsiendil ei saa muuta: surmakuupäeva, sünnikuupäeva, sugu, nime                                          |
+| MPI-071    | Eesti isikukoodiga patsiendil ei saa muuta: surmakuupäeva, sünnikuupäeva, sugu, nime                                                                    |
 | MPI-072    | Patient ressurss id-ga ${id} ei leitud                                                                                                                  |
 | MPI-073    | RelatedPerson ressurss id-ga ${id} ei leitud                                                                                                            |
 | MPI-074    | Observation ressurss id-ga ${id} ei leitud                                                                                                              |
@@ -168,16 +168,16 @@ Allpool on toodud veakoodid tekstidega erinevatest süsteemidest. Oluline meeles
 | MPI-095    | patient-identifier batch-i limiit ${limit} on ületatud                                                                                                  |
 | MPI-096    | Teenuse sisend ei ole valiidne. ${message}                                                                                                              |
 | MPI-097    | Kasutaja sessiooni infos on mitu 'practitioner' rolli, lubatud vaid üks                                                                                 |
-| MPI-098    | Terminoloogia valideerimine ebaõnnestus, ${system}|${code} ei leitud loendist ${valueSet}                                                               |
-| MPI-099    | ${reference} ressurssi ei leitud                                                                                                                                                        |
+| MPI-098    | Terminoloogia valideerimine ebaõnnestus, ${system}\|${code} ei leitud loendist ${valueSet}                                                              |
+| MPI-099    | ${reference} ressurssi ei leitud                                                                                                                        |
 | MPI-100    | Tundmatu taustatöö tüüp ${type}                                                                                                                         |
-| MPI-101    | Patsient on surnud                                                                                                                                                        |
-| MPI-102    | Eesti isikukoodiga patsiendi identifikaatori loomine ei ole lubatud                                                                                                                                                        |
-| MPI-103    | Asendatavat patsienti ei leitud identifikaatori ${identifier} järgi                                                                                                                                                        |
-| MPI-104    | Asendavat patsienti ei leitud identifikaatori ${identifier} järgi                                                                                                                                                        |
-| MPI-105    | Session infos puudub roll                                                                                                                                                        |
-| MPI-106    | RR-i päring ebaõnnestus: ${message}                                                                                                                                                        |
-| MPI-107    | Genereeritud identifikaatori väärtus on juba kasutusel teise patsiendi poolt antud süsteemis                                                                                                                                                        |
+| MPI-101    | Patsient on surnud                                                                                                                                      |
+| MPI-102    | Eesti isikukoodiga patsiendi identifikaatori loomine ei ole lubatud                                                                                     |
+| MPI-103    | Asendatavat patsienti ei leitud identifikaatori ${identifier} järgi                                                                                     |
+| MPI-104    | Asendavat patsienti ei leitud identifikaatori ${identifier} järgi                                                                                       |
+| MPI-105    | Session infos puudub roll                                                                                                                               |
+| MPI-106    | RR-i päring ebaõnnestus: ${message}                                                                                                                     |
+| MPI-107    | Genereeritud identifikaatori väärtus on juba kasutusel teise patsiendi poolt antud süsteemis                                                            |
 | MPI-400    | FHIR serveri üldine viga                                                                                                                                |
 | MPI-403    | ${interaction} pole lubatud                                                                                                                             |
 
