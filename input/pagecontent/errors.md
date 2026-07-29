@@ -3,7 +3,7 @@
 API tagastab vead [OperationOutcome](https://hl7.org/fhir/R5/operationoutcome.html) ressursina, mille sees võib olla mitu `issue` elementi koos vigadega.
 Vead võivad olla kas ainult patsiendi registri omad või sisaldada ka peegeldatud vigu teistest teenustest.
 
-Näide `OperationOutcome`-ist, mis kuvab peegeldatud vead:
+Näide `OperationOutcome`-ist, mis kuvab peegeldatud viga:
 
 ```json
 {
@@ -69,7 +69,7 @@ Näide `OperationOutcome`-ist, mis kuvab peegeldatud vead:
 
 ## Vigade kataloog
 
-Allpool on toodud veakoodid tekstidega erinevatest süsteemidest. Oluline meeles pidada, et mitte kõik veakoodid võivad jõyda lõppkasutajani.
+Allpool on toodud veakoodid tekstidega erinevatest süsteemidest. Oluline meeles pidada, et mitte kõik veakoodid võivad jõuda lõppkasutajani.
 
 ### Patsiendi registri veakoodid
 
@@ -109,7 +109,7 @@ Allpool on toodud veakoodid tekstidega erinevatest süsteemidest. Oluline meeles
 | MPI-032    | Päringus puudub päis 'x-road-issue'                                                                                                                     |
 | MPI-033    | Päringus puudub autori asutuse registrikood                                                                                                             |
 | MPI-034    | Perekonnaseisu salvestamine ebaõnnestus, sest puudub seos patsiendi ja teise isiku vahel                                                                |
-| MPI-035    | Patsientide sidumine ebaõnnestus: primaarse patsient ei tohi olla tundmatu                                                                              |
+| MPI-035    | Patsientide sidumine ebaõnnestus: primaarne patsient ei tohi olla tundmatu                                                                              |
 | MPI-036    | Patsientide sidumine ebaõnnestus: sekundaarne patsient on juba teise patsiendiga seotud                                                                 |
 | MPI-037    | Sorteerimisparameeter '${param}' pole lubatud                                                                                                           |
 | MPI-038    | Patsientide lahti sidumine ebaõnnestus: antud patsiendid pole seotud                                                                                    |
@@ -119,7 +119,6 @@ Allpool on toodud veakoodid tekstidega erinevatest süsteemidest. Oluline meeles
 | MPI-042    | Patsiendil ei saa olla rohkem kui ${max} kontaktisikut                                                                                                  |
 | MPI-043    | Integratsiooniviga xroad-tk teenusega                                                                                                                   |
 | MPI-044    | Encountered invalid est personal code: ${code}                                                                                                          |
-| MPI-045    | Parameetriga ${param} antud identifikaatori järgi ei ole patsient leitav                                                                                |
 | MPI-046    | Mitu patsiendi kirjet on leitud parameetriga ${param}                                                                                                   |
 | MPI-047    | legal-status parameeter on kohustuslik                                                                                                                  |
 | MPI-048    | Lubamatu legal-status parameetri väärtus                                                                                                                |
@@ -139,10 +138,13 @@ Allpool on toodud veakoodid tekstidega erinevatest süsteemidest. Oluline meeles
 | MPI-062    | Päringu päised 'x-road-userid' ja 'x-author-id' on erineva isikukoodiga                                                                                 |
 | MPI-063    | Päringu autor ei tohi olla anonüümne (isikukoodiga ${impersonal_code})                                                                                  |
 | MPI-064    | 'guardian-only' parameeter on lubatud ainult alaealise patsiendi puhul. Täiskasvanu eestkostja leidmiseks tuleb kasutada $legal-guardian operatsiooni!  |
-| MPI-065    | Patsientide sidumine ebaõnnestus: sekundaarne patsient (source) ei saa olla eesti isikukoodiga                                                          |
+| MPI-065    | Patsientide sidumine ebaõnnestus: sekundaarne patsient (source) ei tohi olla seotud eesti isikukoodiga                                                          |
 | MPI-066    | Päringu autori isikukood ${personalCode} ei ole korrektne                                                                                               |
+| MPI-067    | Patsiendi identifikaatori süsteem ${system} ei ole lubatud                                                                                              |![img.png](img.png)
+| MPI-068    | Patsientide lahtisidumine ebaõnnestus: nii primaarne kui ka sekundaarne patsient ei tohi olla seotud Eesti isikukoodiga                                 |
+| MPI-069    | Patsiendi identifikaatori süsteemi ${system} kehtivus lõppes ${validUntil}                                                                              |
 | MPI-070    | Välismaa identifikaatorile ${id-system}\|${id-value} on kohustulik määrata ka isikukood süsteemiga ${required}                                          |
-| MPI-071    | Eesti isikukoodiga patsiendil ei saa muuta: surmakuupäeva, sünnikuupäeva, sugu, nime, aktiivolekut, isikukoodi                                          |
+| MPI-071    | Eesti isikukoodiga patsiendil ei saa muuta: surmakuupäeva, sünnikuupäeva, sugu, nime                                          |
 | MPI-072    | Patient ressurss id-ga ${id} ei leitud                                                                                                                  |
 | MPI-073    | RelatedPerson ressurss id-ga ${id} ei leitud                                                                                                            |
 | MPI-074    | Observation ressurss id-ga ${id} ei leitud                                                                                                              |
@@ -165,7 +167,17 @@ Allpool on toodud veakoodid tekstidega erinevatest süsteemidest. Oluline meeles
 | MPI-094    | Tundmatu sugu ${code}                                                                                                                                   |
 | MPI-095    | patient-identifier batch-i limiit ${limit} on ületatud                                                                                                  |
 | MPI-096    | Teenuse sisend ei ole valiidne. ${message}                                                                                                              |
+| MPI-097    | Kasutaja sessiooni infos on mitu 'practitioner' rolli, lubatud vaid üks                                                                                 |
+| MPI-098    | Terminoloogia valideerimine ebaõnnestus, ${system}|${code} ei leitud loendist ${valueSet}                                                               |
+| MPI-099    | ${reference} ressurssi ei leitud                                                                                                                                                        |
 | MPI-100    | Tundmatu taustatöö tüüp ${type}                                                                                                                         |
+| MPI-101    | Patsient on surnud                                                                                                                                                        |
+| MPI-102    | Eesti isikukoodiga patsiendi identifikaatori loomine ei ole lubatud                                                                                                                                                        |
+| MPI-103    | Asendatavat patsienti ei leitud identifikaatori ${identifier} järgi                                                                                                                                                        |
+| MPI-104    | Asendavat patsienti ei leitud identifikaatori ${identifier} järgi                                                                                                                                                        |
+| MPI-105    | Session infos puudub roll                                                                                                                                                        |
+| MPI-106    | RR-i päring ebaõnnestus: ${message}                                                                                                                                                        |
+| MPI-107    | Genereeritud identifikaatori väärtus on juba kasutusel teise patsiendi poolt antud süsteemis                                                                                                                                                        |
 | MPI-400    | FHIR serveri üldine viga                                                                                                                                |
 | MPI-403    | ${interaction} pole lubatud                                                                                                                             |
 
