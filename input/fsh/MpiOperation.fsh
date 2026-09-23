@@ -628,3 +628,60 @@ Usage: #definition
 * parameter[=].max = "1"
 * parameter[=].documentation = "Warning returned when patient is deceased. Contains OperationOutcome with MPI-101."
 * parameter[=].type = #OperationOutcome
+
+Instance: patient-resolve-reference
+InstanceOf: OperationDefinition
+Usage: #definition
+* extension[0].url = "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm"
+* extension[=].valueInteger = 1
+* extension[+].url = "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status"
+* extension[=].valueCode = #trial-use
+* url = "https://fhir.ee/mpi/OperationDefinition/patient-resolve-reference"
+* version = "5.0.0"
+* name = "EEMPIPatientResolveReference"
+* title = "Resolve Patient Reference"
+* status = #active
+* kind = #operation
+* experimental = false
+* publisher = "HL7 Estonia"
+* description = "Batch operation to resolve a set of patient identifiers to MPI Patient references. For every identifier given in the request, the response always contains that same identifier, plus either a reference to the matching Patient resource, or an OperationOutcome explaining why no reference could be returned (identifier not found, or identifier.system not allowed). The operation is a type-level operation, called on the Patient resource type endpoint (`POST [base]/Patient/$resolve-reference`), and does not require an existing patient reference or any resource context. It is open to all authenticated users."
+* jurisdiction = $m49.htm#Estonia "Estonia"
+* affectsState = false
+* code = #resolve-reference
+* comment = "Every submitted `identifier.system` is checked against the [patsiendi-identifikaatorite-domeen](https://akk.tehik.ee/classifier/fhir/ValueSet/patsiendi-identifikaatorite-domeen) value set. Unlike other MPI operations, an invalid `identifier.system` does not fail the whole request: it is reported per identifier as a `match.issue` OperationOutcome (MPI-067), and processing continues for the remaining identifiers."
+* resource = #Patient
+* system = false
+* type = true
+* instance = false
+* parameter[0].name = #identifier
+* parameter[=].use = #in
+* parameter[=].min = 0
+* parameter[=].max = "*"
+* parameter[=].documentation = "One repetition per identifier to be resolved. `identifier.system` is checked against the [patsiendi-identifikaatorite-domeen](https://akk.tehik.ee/classifier/fhir/ValueSet/patsiendi-identifikaatorite-domeen) value set; identifiers with a system outside this value set are reported as an error in the corresponding `match.issue`, instead of being resolved."
+* parameter[=].type = #Identifier
+* parameter[=].binding.strength = #required
+* parameter[=].binding.valueSet = $patient-identifier-domain-VS
+* parameter[+].name = #match
+* parameter[=].use = #out
+* parameter[=].min = 0
+* parameter[=].max = "*"
+* parameter[=].documentation = "One repetition per identifier that was submitted in the request, in the same order. Contains either a `patient` part (on success) or an `issue` part (identifier not found, or identifier.system not allowed), never both."
+* parameter[=].part[0].name = #identifier
+* parameter[=].part[=].use = #out
+* parameter[=].part[=].min = 1
+* parameter[=].part[=].max = "1"
+* parameter[=].part[=].documentation = "The identifier exactly as submitted in the request. Always present."
+* parameter[=].part[=].type = #Identifier
+* parameter[=].part[+].name = #patient
+* parameter[=].part[=].use = #out
+* parameter[=].part[=].min = 0
+* parameter[=].part[=].max = "1"
+* parameter[=].part[=].documentation = "Reference to the Patient resource that has the given identifier. Present only when a matching patient was found."
+* parameter[=].part[=].type = #Reference
+* parameter[=].part[=].targetProfile = "https://fhir.ee/mpi/StructureDefinition/ee-mpi-patient"
+* parameter[=].part[+].name = #issue
+* parameter[=].part[=].use = #out
+* parameter[=].part[=].min = 0
+* parameter[=].part[=].max = "1"
+* parameter[=].part[=].documentation = "OperationOutcome explaining why no patient reference is returned for this identifier: identifier.system not in the [patsiendi-identifikaatorite-domeen](https://akk.tehik.ee/classifier/fhir/ValueSet/patsiendi-identifikaatorite-domeen) value set (MPI-067), or no patient found with the given identifier (MPI-021)."
+* parameter[=].part[=].type = #OperationOutcome
