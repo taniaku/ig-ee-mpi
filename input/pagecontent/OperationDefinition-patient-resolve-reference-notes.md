@@ -62,93 +62,36 @@ Näide vastusest:
 
 Täielik näidisressurss: [Parameters/patient-resolve-reference-example](Parameters-patient-resolve-reference-example.html).
 
+{% include Parameters-patient-resolve-reference-example-json-html.xhtml %}
+
+#### Vead
+
+Kui päringus puudub `identifier` parameeter (või sellel puudub `valueIdentifier` väärtus), lükatakse **kogu päring tagasi** veaga `MPI-078`:
+
+Näide päringust:
 ```json
 {
   "resourceType": "Parameters",
-  "parameter": [
+  "parameter": []
+}
+```
+Näide vastusest:
+```json
+{
+  "resourceType": "OperationOutcome",
+  "issue": [
     {
-      "name": "match",
-      "part": [
-        {
-          "name": "identifier",
-          "valueIdentifier": {
-            "system": "https://fhir.ee/sid/pid/est/ni",
-            "value": "37302102711"
+      "severity": "error",
+      "code": "required",
+      "details": {
+        "coding": [
+          {
+            "system": "https://mpi.tehik.ee",
+            "code": "MPI-078"
           }
-        },
-        {
-          "name": "patient",
-          "valueReference": {
-            "reference": "Patient/pat1"
-          }
-        }
-      ]
-    },
-    {
-      "name": "match",
-      "part": [
-        {
-          "name": "identifier",
-          "valueIdentifier": {
-            "system": "https://fhir.ee/sid/pid/est/ni",
-            "value": "49010012345"
-          }
-        },
-        {
-          "name": "issue",
-          "resource": {
-            "resourceType": "OperationOutcome",
-            "issue": [
-              {
-                "severity": "warning",
-                "code": "not-found",
-                "details": {
-                  "coding": [
-                    {
-                      "system": "https://mpi.tehik.ee",
-                      "code": "MPI-021"
-                    }
-                  ],
-                  "text": "Patsiendi identifikaatorit ei leitud"
-                }
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "match",
-      "part": [
-        {
-          "name": "identifier",
-          "valueIdentifier": {
-            "system": "https://example.com/unknown-system",
-            "value": "12345678901"
-          }
-        },
-        {
-          "name": "issue",
-          "resource": {
-            "resourceType": "OperationOutcome",
-            "issue": [
-              {
-                "severity": "error",
-                "code": "invalid",
-                "details": {
-                  "coding": [
-                    {
-                      "system": "https://mpi.tehik.ee",
-                      "code": "MPI-067"
-                    }
-                  ],
-                  "text": "Patsiendi identifikaatori süsteem https://example.com/unknown-system ei ole lubatud"
-                }
-              }
-            ]
-          }
-        }
-      ]
+        ],
+        "text": "Puudub kohustuslik 'identifier' parameeter"
+      }
     }
   ]
 }

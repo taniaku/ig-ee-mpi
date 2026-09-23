@@ -648,16 +648,16 @@ Usage: #definition
 * jurisdiction = $m49.htm#Estonia "Estonia"
 * affectsState = false
 * code = #resolve-reference
-* comment = "Every submitted `identifier.system` is checked against the [patsiendi-identifikaatorite-domeen](https://akk.tehik.ee/classifier/fhir/ValueSet/patsiendi-identifikaatorite-domeen) value set. Unlike other MPI operations, an invalid `identifier.system` does not fail the whole request: it is reported per identifier as a `match.issue` OperationOutcome (MPI-067), and processing continues for the remaining identifiers."
+* comment = "If no `identifier` parameter with a `valueIdentifier` is given, the request is rejected with an OperationOutcome (MPI-078). Every submitted `identifier.system` is checked against the [patsiendi-identifikaatorite-domeen](https://akk.tehik.ee/classifier/fhir/ValueSet/patsiendi-identifikaatorite-domeen) value set. Unlike other MPI operations, an invalid `identifier.system` does not fail the whole request: it is reported per identifier as a `match.issue` OperationOutcome (MPI-067), and processing continues for the remaining identifiers."
 * resource = #Patient
 * system = false
 * type = true
 * instance = false
 * parameter[0].name = #identifier
 * parameter[=].use = #in
-* parameter[=].min = 0
+* parameter[=].min = 1
 * parameter[=].max = "*"
-* parameter[=].documentation = "One repetition per identifier to be resolved. `identifier.system` is checked against the [patsiendi-identifikaatorite-domeen](https://akk.tehik.ee/classifier/fhir/ValueSet/patsiendi-identifikaatorite-domeen) value set; identifiers with a system outside this value set are reported as an error in the corresponding `match.issue`, instead of being resolved."
+* parameter[=].documentation = "One repetition per identifier to be resolved. At least one `identifier` parameter with a `valueIdentifier` is required; if it is missing, the whole request is rejected with an OperationOutcome (MPI-078). `identifier.system` is checked against the [patsiendi-identifikaatorite-domeen](https://akk.tehik.ee/classifier/fhir/ValueSet/patsiendi-identifikaatorite-domeen) value set; identifiers with a system outside this value set are reported as an error in the corresponding `match.issue`, instead of being resolved."
 * parameter[=].type = #Identifier
 * parameter[=].binding.strength = #required
 * parameter[=].binding.valueSet = $patient-identifier-domain-VS
