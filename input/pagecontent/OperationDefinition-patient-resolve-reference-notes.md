@@ -1,27 +1,8 @@
-#### Kirjeldus
-
-Operatsioon on **tüübitasandi** (type-level) operatsioon Patsiendi ressursitüübil — see ei ole seotud konkreetse patsiendiga (ei nõua olemasolevat `Patient` viidet ega muud ressursikonteksti) ning seda kutsutakse aadressil `Patient/$resolve-reference`. Operatsioon on avatud kõigile autenditud kasutajatele.
-
-Päringu keha (`Parameters`) sisaldab korduvat `identifier` parameetrit — iga esitatud identifikaatori kohta tagastatakse vastuses täpselt üks `match`, mis sisaldab **alati** sama identifikaatorit (`match.identifier`) ning lisaks kas:
-
-- viidet (`match.patient`) leitud `Patient` ressursile, kui identifikaatorile vastav patsient leiti; või
-- `OperationOutcome`-i (`match.issue`), kui identifikaatorile ei leitud patsienti või kui identifikaatori `system` ei ole lubatud.
-
-Vastuses on `match`-elemendid samas järjekorras, mis päringus esitatud identifikaatorid, ning nende arv vastab alati päringus esitatud identifikaatorite arvule.
-
-**NB!** `identifier` parameetri `binding` on `OperationDefinition`-is deklareeritud kui `required` väärtushulga [patsiendi-identifikaatorite-domeen](https://akk.tehik.ee/classifier/fhir/ValueSet/patsiendi-identifikaatorite-domeen) vastu — see kontrollib formaalselt, et iga esitatud `identifier.system` kuulub sellesse väärtushulka. Erinevalt teistest MPI operatsioonidest **ei lükata kogu päringut tagasi**, kui mõni identifikaator on väljaspool seda väärtushulka — vastav `match` sisaldab lihtsalt `issue` osa veaga `MPI-067`, ning ülejäänud identifikaatorid töödeldakse tavapäraselt edasi.
-
-#### Avastatavus (discoverability)
-
-Operatsiooni definitsioon peab olema standardsete FHIR mehhanismidega avastatav:
-
-- `GET {MPI}/fhir/metadata` — serveri `CapabilityStatement` peab sisaldama seda operatsiooni `Patient` ressursitüübi all (`CapabilityStatement.rest.resource[type=Patient].operation`), kus `name = resolve-reference` ja `definition = https://fhir.ee/mpi/OperationDefinition/patient-resolve-reference`, vt ka [üldised kontrollid](checks.html).
-- `GET {MPI}/fhir/OperationDefinition/patient-resolve-reference` — peab tagastama käesoleva `OperationDefinition` ressursi (kanoonilise URL-iga `https://fhir.ee/mpi/OperationDefinition/patient-resolve-reference`).
+#### Identifikaatori valideerimine
+`identifier.system` peab kuuluma väärtushulka [patsiendi-identifikaatorite-domeen](https://akk.tehik.ee/classifier/fhir/ValueSet/patsiendi-identifikaatorite-domeen). Lubatud on nii URL (nt `https://fhir.ee/sid/pid/est/ni`) kui ka OID (nt `urn:oid:1.3.6.1.4.1.28284.6.2.2.16.246.2`) kujul süsteemid.
 
 #### Näited
-
 Näide päringust:
-
 ```
 POST {MPI}/Patient/$resolve-reference
 ```
@@ -34,6 +15,13 @@ POST {MPI}/Patient/$resolve-reference
       "valueIdentifier": {
         "system": "https://fhir.ee/sid/pid/est/ni",
         "value": "37302102711"
+      }
+    },
+    {
+      "name": "identifier",
+      "valueIdentifier": {
+        "system": "urn:oid:1.3.6.1.4.1.28284.6.2.2.16.752.2",
+        "value": "SWE-12345567"
       }
     },
     {
@@ -54,28 +42,13 @@ POST {MPI}/Patient/$resolve-reference
 }
 ```
 
-Näide vastusest:
-
-- Esimesele identifikaatorile leiti patsient.
-- Teisele identifikaatorile (süsteem on lubatud, aga sellise identifikaatoriga patsienti ei leitud) tagastatakse `issue`.
-- Kolmandale identifikaatorile (süsteem `https://example.com/unknown-system` ei kuulu väärtushulka [patsiendi-identifikaatorite-domeen](https://akk.tehik.ee/classifier/fhir/ValueSet/patsiendi-identifikaatorite-domeen)) tagastatakse samuti `issue`.
-
-Täielik näidisressurss: [Parameters/patient-resolve-reference-example](Parameters-patient-resolve-reference-example.html).
+Vastusena tuleb iga identifikaatori kohta `match`, mis sisaldab kas viidet leitud patsiendile (`patient`) või viga (`issue`), kui patsienti ei leitud või identifikaatori süsteem ei ole lubatud (`MPI-067`):
 
 {% include Parameters-patient-resolve-reference-example-json-html.xhtml %}
 
 #### Vead
+Kui päringus puudub `identifier` parameeter, tagastatakse viga `MPI-078`:
 
-Kui päringus puudub `identifier` parameeter (või sellel puudub `valueIdentifier` väärtus), lükatakse **kogu päring tagasi** veaga `MPI-078`:
-
-Näide päringust:
-```json
-{
-  "resourceType": "Parameters",
-  "parameter": []
-}
-```
-Näide vastusest:
 ```json
 {
   "resourceType": "OperationOutcome",

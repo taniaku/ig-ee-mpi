@@ -67,8 +67,11 @@ Description: "Foreigner with minimal dataset."
 Usage: #example
 * id = "pat2"
 * identifier[0]
-  * system = "https://fhir.ee/sid/pid/usa/ppn"
+  * system = "https://fhir.ee/sid/pid/swe/ppn"
   * value = "N857623628"
+* identifier[+]
+  * system = "https://fhir.ee/sid/pid/swe/ni"
+  * value = "SWE-12345567"
 * name[0]
   * use = #usual
   * given = "John"
